@@ -4,6 +4,7 @@ const {
   DynamoDBDocumentClient,
   PutCommand,
   ScanCommand,
+  UpdateCommand,
 } = require("@aws-sdk/lib-dynamodb");
 
 const dynamoClient = require("../config/dynamodb");
@@ -64,8 +65,44 @@ const getDeployments = async (req, res) => {
     });
   }
 };
+ 
+const updateTraffic = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { trafficPercentage } = req.body;
+
+    const result = await docClient.send(
+      new UpdateCommand({
+        TableName: "deployments",
+        Key: {
+          deploymentId: id,
+        },
+        UpdateExpression:
+          "SET trafficPercentage = :trafficPercentage",
+        ExpressionAttributeValues: {
+          ":trafficPercentage": trafficPercentage,
+        },
+        ReturnValues: "ALL_NEW",
+      })
+    );
+
+    res.status(200).json({
+      success: true,
+      deployment: result.Attributes,
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Failed to update traffic",
+      error: error.message,
+    });
+  }
+};
 
 module.exports = {
   createDeployment,
   getDeployments,
+  updateTraffic,
 };
