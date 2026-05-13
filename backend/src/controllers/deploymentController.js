@@ -101,8 +101,48 @@ const updateTraffic = async (req, res) => {
   }
 };
 
+const rollbackDeployment = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const result = await docClient.send(
+      new UpdateCommand({
+        TableName: "deployments",
+        Key: {
+          deploymentId: id,
+        },
+        UpdateExpression:
+          "SET trafficPercentage = :traffic, #status = :status",
+        ExpressionAttributeNames: {
+          "#status": "status",
+        },
+        ExpressionAttributeValues: {
+          ":traffic": 0,
+          ":status": "ROLLED_BACK",
+        },
+        ReturnValues: "ALL_NEW",
+      })
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Deployment rolled back successfully",
+      deployment: result.Attributes,
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      success: false,
+      message: "Rollback failed",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   createDeployment,
   getDeployments,
   updateTraffic,
+  rollbackDeployment,
 };
