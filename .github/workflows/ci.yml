@@ -1,48 +1,41 @@
 name: CI Pipeline
 
 on:
-push:
-branches:
-- main
+  push:
+    branches:
+      - main
 
 jobs:
-frontend:
+  frontend:
+    runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: frontend
 
-runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-defaults:
-  run:
-    working-directory: frontend
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-steps:
+      - run: npm install
 
-  - uses: actions/checkout@v4
+      - run: npm run build
 
-  - uses: actions/setup-node@v4
-    with:
-      node-version: 20
+  backend:
+    runs-on: ubuntu-latest
 
-  - run: npm install
+    defaults:
+      run:
+        working-directory: backend
 
-  - run: npm run build
+    steps:
+      - uses: actions/checkout@v4
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
-backend:
-
-runs-on: ubuntu-latest
-
-defaults:
-  run:
-    working-directory: backend
-
-steps:
-
-  - uses: actions/checkout@v4
-
-  - uses: actions/setup-node@v4
-    with:
-      node-version: 20
-
-  - run: npm install
-
+      - run: npm install
