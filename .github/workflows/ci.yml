@@ -50,8 +50,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Build Backend Docker Image
-        run: docker build -t progressive-backend ./backend
+     - name: Build Backend Docker Image
+  run: docker build -f backend/Dockerfile -t progressive-backend backend
 
-      - name: Build Frontend Docker Image
-        run: docker build -t progressive-frontend ./frontend
+- name: Build Frontend Docker Image
+  run: docker build -f frontend/Dockerfile -t progressive-frontend frontend
