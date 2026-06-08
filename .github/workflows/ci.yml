@@ -40,7 +40,7 @@ jobs:
 
       - run: npm install
 
-  docker-build:
+    docker-build:
     needs:
       - frontend
       - backend
