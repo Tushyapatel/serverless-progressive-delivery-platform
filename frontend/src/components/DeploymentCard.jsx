@@ -61,6 +61,13 @@ function DeploymentCard({
 
   const statusStyles = getStatusStyles();
 
+  console.log(
+  deployment.version,
+  deployment.pipelineStatus,
+  deployment.status,
+  deployment.duration
+);
+
   return (
     <motion.div
       whileHover={{
@@ -95,17 +102,17 @@ function DeploymentCard({
         </div>
 
         <div className="mt-4 space-y-2 mb-6">
-      <p className="text-sm text-slate-400">
+     <p className="text-sm text-slate-400">
   Duration:
   <span className="ml-2 text-emerald-400 font-semibold">
-    {deployment.duration
-      ? `${deployment.duration}s`
-      : deployment.pipelineStatus ===
-        "RUNNING"
-      ? "RUNNING"
-      : deployment.pipelineStatus ===
-        "FAILED"
+    {deployment.pipelineStatus === "RUNNING"
+      ? "RUNNING..."
+      : deployment.pipelineStatus === "FAILED"
       ? "FAILED"
+      : deployment.pipelineStatus === "ROLLED_BACK"
+      ? "ROLLED BACK"
+      : deployment.duration
+      ? `${deployment.duration}s`
       : "NOT_STARTED"}
   </span>
 </p>

@@ -301,7 +301,7 @@ for (const traffic of rolloutStages) {
     const randomFailureChance =
       Math.random();
 
-    if (randomFailureChance < 0.3) {
+    if (randomFailureChance < 0.18) {
       isHealthy = false;
     }
   }

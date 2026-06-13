@@ -13,7 +13,7 @@ function CreateDeploymentForm({ onDeploymentCreated }) {
 });
 
       setVersion("");
-      setFailAt("");
+     
 
       onDeploymentCreated();
     } catch (error) {

@@ -84,22 +84,16 @@ const [filter, setFilter] =
           prevDeployments.map(
             (deployment) =>
 
-              deployment.deploymentId === id
-                ? {
-
-                    ...deployment,
-
-                    status:
-                      "ROLLING_OUT",
-
-                    pipelineStatus:
-                      "RUNNING",
-
-                    currentStage:
-                      "BUILDING",
-
-                    trafficPercentage: 0,
-                  }
+             deployment.deploymentId === id
+  ? {
+      ...deployment,
+      status: "ROLLING_OUT",
+      pipelineStatus: "RUNNING",
+      currentStage: "BUILDING",
+      trafficPercentage: 0,
+      duration: null,
+      completedAt: null,
+    }
                 : deployment
           )
       );
